@@ -1,9 +1,10 @@
+//make sure html is processed with window event listener
 window.addEventListener('DOMContentLoaded', () => {
     const tiles = Array.from(document.querySelectorAll('.tile'));
     const playerDisplay = document.querySelector('.display-player');
     const resetButton = document.querySelector('#reset');
     const announcer = document.querySelector('.announcer');
-
+//acts as the board and stores with either x or o
     let board = ['', '', '', '', '', '', '', '', ''];
     let currentPlayer = 'X';
     let isGameActive = true;
@@ -19,7 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
         [3] [4] [5]
         [6] [7] [8]
     */
-
+// winning conditions
     const winningConditions = [
         [0, 1, 2],
         [3, 4, 5],
@@ -30,7 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
         [0, 4, 8],
         [2, 4, 6]
     ];
-
+//loop through winning conditions
     function handleResultValidation() {
         let roundWon = false;
         for (let i = 0; i <= 7; i++) {
@@ -46,17 +47,17 @@ window.addEventListener('DOMContentLoaded', () => {
                 break;
             }
         }
-
+// if there is a winner this will execute
     if (roundWon) {
             announce(currentPlayer === 'X' ? PLAYERX_WON : PLAYERO_WON);
             isGameActive = false;
             return;
         }
-
+//if tie this will execute
     if (!board.includes(''))
         announce(TIE);
     }
-
+//help announce winner and remove hide class to announce winner
     const announce = (type) => {
         switch(type){
             case PLAYERO_WON:
@@ -70,7 +71,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         announcer.classList.remove('hide');
     };
-
+//make sure players only use empty tiles
     const isValidAction = (tile) => {
         if (tile.innerText === 'X' || tile.innerText === 'O'){
             return false;
@@ -82,13 +83,14 @@ window.addEventListener('DOMContentLoaded', () => {
     const updateBoard =  (index) => {
         board[index] = currentPlayer;
     }
-
+//change current player if o then change to x and vise versa and display current player
     const changePlayer = () => {
         playerDisplay.classList.remove(`player${currentPlayer}`);
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
         playerDisplay.innerText = currentPlayer;
         playerDisplay.classList.add(`player${currentPlayer}`);
     }
+// represents a turn in the game as a function
 
     const userAction = (tile, index) => {
         if(isValidAction(tile) && isGameActive) {
@@ -99,7 +101,7 @@ window.addEventListener('DOMContentLoaded', () => {
             changePlayer();
         }
     }
-    
+    //resets the game board
     const resetBoard = () => {
         board = ['', '', '', '', '', '', '', '', ''];
         isGameActive = true;
@@ -115,7 +117,7 @@ window.addEventListener('DOMContentLoaded', () => {
             tile.classList.remove('playerO');
         });
     }
-
+//add forEach function to listen to a click and itll refrence the tile and index of it
     tiles.forEach( (tile, index) => {
         tile.addEventListener('click', () => userAction(tile, index));
     });
