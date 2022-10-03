@@ -1,3 +1,3 @@
 # BrowserGameProj
 
-This brower game will be a tic tac toe game against an AI.
+This brower game will be a tic tac toe with 2 players
